@@ -1,32 +1,37 @@
-<template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+<template lang="pug">
+  #app
+    .title-bar
+      | Mogollar
+    router-view.views
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('./assets/reset.css');
+@import url('./assets/theme.scss');
+
+body {
+  background-color: var(--bg-color);
+  color: var(--fg-color);
 }
 
-#nav {
-  padding: 30px;
+#app {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+.title-bar {
+  background: transparent;
+  height: 40px;
+  line-height: 40px;
+  display: block;
+  -webkit-app-region: drag;
+  font-weight: var(--bold);
+  text-align: center;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.views {
+  padding: 1rem;
 }
 </style>
