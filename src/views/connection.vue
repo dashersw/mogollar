@@ -55,5 +55,3 @@ export default {
   overflow: scroll;
 }
 </style>
-
-<style lang="scss"></style>

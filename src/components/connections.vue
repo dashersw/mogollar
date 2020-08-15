@@ -9,7 +9,8 @@ export default {
   data() {
     return {
       name: connectionName,
-      connectionString
+      connectionString,
+      showConnections: true
     }
   },
   methods: {
@@ -17,6 +18,9 @@ export default {
     async doConnect() {
       await this.connect(this.connectionString)
       this.$router.push('/connection')
+    },
+    toggleConnections() {
+      this.showConnections = !this.showConnections
     }
   },
   computed: {
@@ -30,8 +34,8 @@ export default {
   .box
     h1
       span Connections
-      button.round.add +
-    form
+      button(@click="toggleConnections").round.add +
+    form(v-show="showConnections")
       .form-item
         p Connection name:
         input(type="text" v-model="name")
