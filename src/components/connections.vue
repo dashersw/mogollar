@@ -8,6 +8,7 @@ export default {
   name: 'connections',
   data() {
     return {
+      display: false,
       name: connectionName,
       connectionString
     }
@@ -30,8 +31,8 @@ export default {
   .box
     h1
       span Connections
-      button.round.add +
-    form
+      button(@click="display = !display").round.add +
+    form(v-if="display")
       .form-item
         p Connection name:
         input(type="text" v-model="name")
