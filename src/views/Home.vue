@@ -1,15 +1,18 @@
-<template lang="pug">
-  .home
-    Connections(msg="Welcome to Your Vue.js App")
-</template>
-
 <script>
-import Connections from '@/components/connections.vue'
-
 export default {
-  name: 'Home',
-  components: {
-    Connections
-  }
+  name: 'Home'
 }
 </script>
+
+<template lang="pug">
+  .home
+    main
+</template>
+
+<style lang="scss" scoped>
+.home {
+  display: flex;
+  align-items: stretch;
+  height: calc(100% + 58px);
+}
+</style>
