@@ -5,7 +5,8 @@ export default {
   name: 'Connection',
   data() {
     return {
-      queryJson: '{}'
+      queryJson: '{}',
+      showTotalNumberOfResults: false
     }
   },
   computed: {
@@ -14,7 +15,9 @@ export default {
   methods: {
     ...mapActions(['find']),
     doQuery() {
+      this.showTotalNumberOfResults = false
       this.find(JSON.parse(this.queryJson))
+      this.showTotalNumberOfResults = true
     }
   }
 }
@@ -33,6 +36,8 @@ export default {
       h1 Records
       .record-views
         json-viewer(v-for="record in records" :value="record" theme="jv-dark")
+    div.query-total-results
+      p(v-if="showTotalNumberOfResults") Total Results: {{records.length}}
 </template>
 
 <style lang="scss" scoped>
@@ -41,6 +46,12 @@ export default {
   padding-right: 2rem;
   display: flex;
   flex-direction: column;
+}
+
+.query-total-results {
+  height: 1.4rem;
+  bottom: 1rem;
+  font-size: 1rem;
 }
 
 .records {
