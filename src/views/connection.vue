@@ -6,7 +6,6 @@ export default {
   data() {
     return {
       queryJson: '{}',
-      showTotalNumberOfResults: false
     }
   },
   computed: {
@@ -15,9 +14,7 @@ export default {
   methods: {
     ...mapActions(['find']),
     async doQuery() {
-      this.showTotalNumberOfResults = false
       await this.find(JSON.parse(this.queryJson))
-      this.showTotalNumberOfResults = true
     }
   }
 }
@@ -37,7 +34,7 @@ export default {
       .record-views
         json-viewer(v-for="record in records" :value="record" theme="jv-dark")
     div.query-total-results
-      p(v-if="showTotalNumberOfResults") Total Results: {{totalNumberOfResults}}
+      p(v-if="totalNumberOfResults!= null") Total Results: {{totalNumberOfResults}}
 </template>
 
 <style lang="scss" scoped>
