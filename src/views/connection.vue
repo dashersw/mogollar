@@ -10,13 +10,13 @@ export default {
     }
   },
   computed: {
-    ...mapState(['collectionName', 'records'])
+    ...mapState(['collectionName', 'records', 'totalNumberOfResults'])
   },
   methods: {
     ...mapActions(['find']),
-    doQuery() {
+    async doQuery() {
       this.showTotalNumberOfResults = false
-      this.find(JSON.parse(this.queryJson))
+      await this.find(JSON.parse(this.queryJson))
       this.showTotalNumberOfResults = true
     }
   }
@@ -37,7 +37,7 @@ export default {
       .record-views
         json-viewer(v-for="record in records" :value="record" theme="jv-dark")
     div.query-total-results
-      p(v-if="showTotalNumberOfResults") Total Results: {{records.length}}
+      p(v-if="showTotalNumberOfResults") Total Results: {{totalNumberOfResults}}
 </template>
 
 <style lang="scss" scoped>

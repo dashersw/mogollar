@@ -9,7 +9,8 @@ export default new Vuex.Store({
     connection: null,
     collections: [],
     records: [],
-    collectionName: ''
+    collectionName: '',
+    totalNumberOfResults: null
   },
   mutations: {},
   actions: {
@@ -23,7 +24,9 @@ export default new Vuex.Store({
     },
     async find({ state }, query = {}) {
       const collection = state.connection.db.collection(state.collectionName)
-      state.records = await collection.find(query).toArray()
+      const cursor = await collection.find(query)
+      state.totalNumberOfResults = await cursor.count()
+      state.records = await cursor.toArray()
     },
     async setCollection({ state }, collectionName) {
       state.collectionName = collectionName
