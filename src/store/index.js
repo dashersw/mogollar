@@ -26,10 +26,10 @@ export default new Vuex.Store({
       state.totalNumberOfResults = null
       const collection = state.connection.db.collection(state.collectionName)
       const cursor = await collection.find(query)
-      cursor.count((err,result)=>{
-        if (err == null){
-          state.totalNumberOfResults = result
-        }
+      cursor.count((err,result) => {
+        if (err) return
+
+        state.totalNumberOfResults = result
       })
       state.records = await cursor.toArray()
     },
