@@ -34,7 +34,7 @@ export default {
       .record-views
         json-viewer(v-for="record in records" :value="record" theme="jv-dark")
     div.query-total-results
-      p(v-if="totalNumberOfResults!= null") Total Results: {{totalNumberOfResults}}
+      p(v-if="totalNumberOfResults != null") Total Results: {{totalNumberOfResults}}
 </template>
 
 <style lang="scss" scoped>
