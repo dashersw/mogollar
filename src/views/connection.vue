@@ -5,16 +5,16 @@ export default {
   name: 'Connection',
   data() {
     return {
-      queryJson: '{}'
+      queryJson: '{}',
     }
   },
   computed: {
-    ...mapState(['collectionName', 'records'])
+    ...mapState(['collectionName', 'records', 'totalNumberOfResults'])
   },
   methods: {
     ...mapActions(['find']),
-    doQuery() {
-      this.find(JSON.parse(this.queryJson))
+    async doQuery() {
+      await this.find(JSON.parse(this.queryJson))
     }
   }
 }
@@ -33,6 +33,8 @@ export default {
       h1 Records
       .record-views
         json-viewer(v-for="record in records" :value="record" theme="jv-dark")
+    div.query-total-results
+      p(v-if="totalNumberOfResults != null") Total Results: {{totalNumberOfResults}}
 </template>
 
 <style lang="scss" scoped>
@@ -41,6 +43,12 @@ export default {
   padding-right: 2rem;
   display: flex;
   flex-direction: column;
+}
+
+.query-total-results {
+  height: 1.4rem;
+  bottom: 1rem;
+  font-size: 1rem;
 }
 
 .records {
