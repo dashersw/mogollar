@@ -1,28 +1,28 @@
 <script>
-const connectionName = 'localhost'
-const connectionString = `mongodb://localhost:27017`
+const connectionName = "localhost";
+const connectionString = `mongodb://test:test123@ds163054.mlab.com:63054/graphql-movie-app`;
 
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState } from "vuex";
 
 export default {
-  name: 'connections',
+  name: "connections",
   data() {
     return {
       name: connectionName,
       connectionString
-    }
+    };
   },
   methods: {
-    ...mapActions(['connect', 'setCollection']),
+    ...mapActions(["connect", "setCollection"]),
     async doConnect() {
-      await this.connect(this.connectionString)
-      this.$router.push('/connection')
+      await this.connect(this.connectionString);
+      this.$router.push("/connection");
     }
   },
   computed: {
-    ...mapState(['collections'])
+    ...mapState(["collections"])
   }
-}
+};
 </script>
 
 <template lang="pug">
@@ -49,9 +49,10 @@ export default {
 <style scoped lang="scss">
 .collection {
   cursor: pointer;
+  color: var(--list-hover-color);
 }
 .collection:hover {
-  color: var(--list-hover-color);
+  color: var(--fg-color);
   transition: var(--transition);
 }
 </style>
