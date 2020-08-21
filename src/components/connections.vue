@@ -1,6 +1,6 @@
 <script>
 const connectionName = "localhost";
-const connectionString = `mongodb://test:test123@ds163054.mlab.com:63054/graphql-movie-app`;
+const connectionString = `mongodb://localhost:27017`;
 
 import { mapActions, mapState } from "vuex";
 
