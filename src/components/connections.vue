@@ -1,5 +1,5 @@
 <script>
-const connectionName = "localhost";
+const connectionName = 'localhost';
 const connectionString = `mongodb://localhost:27017`;
 
 import { mapActions, mapState } from "vuex";
