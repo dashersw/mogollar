@@ -49,7 +49,7 @@ export default {
 <style scoped lang="scss">
 .collection {
   cursor: pointer;
-  color: var(--list-hover-color);
+  color: var(--fg-dim-color);
   transition: var(--transition);
 }
 .collection:hover {
