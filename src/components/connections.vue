@@ -2,10 +2,10 @@
 const connectionName = 'localhost';
 const connectionString = `mongodb://localhost:27017`;
 
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: "connections",
+  name: 'connections',
   data() {
     return {
       name: connectionName,
@@ -13,14 +13,14 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["connect", "setCollection"]),
+    ...mapActions(['connect', 'setCollection']),
     async doConnect() {
       await this.connect(this.connectionString);
-      this.$router.push("/connection");
+      this.$router.push('/connection');
     }
   },
   computed: {
-    ...mapState(["collections"])
+    ...mapState(['collections'])
   }
 };
 </script>
