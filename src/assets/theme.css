@@ -14,9 +14,9 @@
   --xs-font-size: 0.6rem;
   --bg-color: #222;
   --fg-color: #fff;
+  --fg-dim-color: #bcbcbc;
   --button-bg: #333;
   --button-hover-bg: #444;
-  --list-hover-color: #bcbcbc;
   --box-bg: rgba(0, 0, 0, 0.4);
   --button-active-bg: #222;
   --transition: 0.2s;
