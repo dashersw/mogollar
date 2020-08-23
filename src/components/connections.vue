@@ -50,9 +50,9 @@ export default {
 .collection {
   cursor: pointer;
   color: var(--list-hover-color);
+  transition: var(--transition);
 }
 .collection:hover {
   color: var(--fg-color);
-  transition: var(--transition);
 }
 </style>
