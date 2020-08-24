@@ -38,7 +38,7 @@ export default {
       .form-item
         p Connection string:
         input(type="text" v-model="connectionString")
-      button(@click="doConnect") Connect
+      button(type="button" @click="doConnect") Connect
   .box
     h1 Collections
     .collection(v-for="collection in collections" @click="setCollection(collection.name)")

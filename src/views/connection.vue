@@ -28,7 +28,7 @@ export default {
           h2 Query:
         .form-item
           input.code(type="text" v-model="queryJson")
-        button(@click="doQuery") Run query
+        button(type="button" @click="doQuery") Run query
     .box.records
       h1 Records
       .record-views
