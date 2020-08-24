@@ -15,7 +15,7 @@ export default new Vuex.Store({
   mutations: {},
   actions: {
     async connect({ state, dispatch }, connectionString) {
-      await mongoose.connect(connectionString)
+      await mongoose.connect(connectionString, { useNewUrlParser: true })
       state.connection = mongoose.connection
       await dispatch('getCollections')
     },
