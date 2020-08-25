@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 const mongoose = require('mongoose')
-const Admin = mongoose.mongo.Admin;
-
+const Admin = mongoose.mongo.Admin
 
 Vue.use(Vuex)
 
@@ -23,12 +22,11 @@ export default new Vuex.Store({
       state.connection = mongoose.connection
       await dispatch('getDatabases')
     },
-    async getDatabases({ state }){
-      try{
+    async getDatabases({ state }) {
+      try {
         let databaseList = await new Admin(state.connection.db).listDatabases()
         state.databases = databaseList.databases
-      }
-      catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
@@ -51,7 +49,7 @@ export default new Vuex.Store({
       state.databaseName = databaseName
       state.collectionName = ''
       state.records = []
-      await dispatch ('getCollections')
+      await dispatch('getCollections')
     },
     async setCollection({ state }, collectionName) {
       state.collectionName = collectionName
