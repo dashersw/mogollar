@@ -5,7 +5,7 @@ export default {
   name: 'Connection',
   data() {
     return {
-      queryJson: '{}',
+      queryJson: '{}'
     }
   },
   computed: {
