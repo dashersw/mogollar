@@ -9,7 +9,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['collectionName', 'records', 'totalNumberOfResults'])
+    ...mapState(['collectionName', 'databaseName', 'records', 'totalNumberOfResults'])
   },
   methods: {
     ...mapActions(['find']),
@@ -21,7 +21,7 @@ export default {
 </script>
 <template lang="pug">
   div.connection
-    h1 {{ collectionName }} collection
+    h1 {{ databaseName }} - {{ collectionName }} collection
     .box
       form
         .form-item
