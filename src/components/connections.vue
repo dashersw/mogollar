@@ -50,4 +50,13 @@ export default {
 
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.collection {
+  cursor: pointer;
+  color: var(--fg-dim-color);
+  transition: var(--transition);
+}
+.collection:hover {
+  color: var(--fg-color);
+}
+</style>
