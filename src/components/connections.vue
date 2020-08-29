@@ -1,8 +1,8 @@
 <script>
-const connectionName = 'localhost';
-const connectionString = `mongodb://localhost:27017`;
+const connectionName = 'localhost'
+const connectionString = `mongodb://localhost:27017`
 
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'connections',
@@ -10,13 +10,13 @@ export default {
     return {
       name: connectionName,
       connectionString
-    };
+    }
   },
   methods: {
     ...mapActions(['connect', 'setCollection']),
     async doConnect() {
-      await this.connect(this.connectionString);
-      this.$router.push('/connection');
+      await this.connect(this.connectionString)
+      this.$router.push('/connection')
     }
   },
   computed: {
