@@ -5,11 +5,11 @@ export default {
   name: 'Connection',
   data() {
     return {
-      queryJson: '{}',
+      queryJson: '{}'
     }
   },
   computed: {
-    ...mapState(['collectionName', 'records', 'totalNumberOfResults'])
+    ...mapState(['collectionName', 'databaseName', 'records', 'totalNumberOfResults'])
   },
   methods: {
     ...mapActions(['find']),
@@ -21,14 +21,14 @@ export default {
 </script>
 <template lang="pug">
   div.connection
-    h1 {{ collectionName }} collection
+    h1 {{ databaseName }} - {{ collectionName }} collection
     .box
       form
         .form-item
           h2 Query:
         .form-item
           input.code(type="text" v-model="queryJson")
-        button(@click="doQuery") Run query
+        button(type="button" @click="doQuery") Run query
     .box.records
       h1 Records
       .record-views
