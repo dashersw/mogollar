@@ -9,7 +9,8 @@ export default {
   data() {
     return {
       name: connectionName,
-      connectionString
+      connectionString,
+      isNewConnectionFormVisible: false
     }
   },
   methods: {
@@ -17,10 +18,16 @@ export default {
     async doConnect() {
       await this.connect(this.connectionString)
       this.$router.push('/connection')
+    },
+    toggleNewConnectionForm() {
+      this.isNewConnectionFormVisible = !this.isNewConnectionFormVisible
     }
   },
   computed: {
-    ...mapState(['databases', 'collections'])
+    ...mapState(['databases', 'collections']),
+    toggleNewConnectionButtonIcon() {
+      return this.isNewConnectionFormVisible ? '-' : '+'
+    }
   }
 }
 </script>
@@ -30,8 +37,8 @@ export default {
   .box
     h1
       span Connections
-      button.round.add +
-    form
+      button.round.add(type="button" @click="toggleNewConnectionForm") {{toggleNewConnectionButtonIcon}}
+    form(v-show="isNewConnectionFormVisible")
       .form-item
         p Connection name:
         input(type="text" v-model="name")
