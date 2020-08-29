@@ -22,7 +22,7 @@ export default {
   computed: {
     ...mapState(['collections'])
   }
-};
+}
 </script>
 
 <template lang="pug">
