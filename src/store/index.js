@@ -13,7 +13,8 @@ export default new Vuex.Store({
     collections: [],
     records: [],
     collectionName: '',
-    totalNumberOfResults: null
+    totalNumberOfResults: null,
+    shouldConnectionSectionBeVisible: false
   },
   mutations: {},
   actions: {
@@ -53,6 +54,9 @@ export default new Vuex.Store({
     },
     async setCollection({ state }, collectionName) {
       state.collectionName = collectionName
+    },
+    async showOrHideConnectionSection({ state }) {
+      state.shouldConnectionSectionBeVisible = !state.shouldConnectionSectionBeVisible
     }
   },
   modules: {}

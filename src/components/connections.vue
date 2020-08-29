@@ -30,8 +30,9 @@ export default {
   .box
     h1
       span Connections
-      button.round.add +
-    form
+      button.round.add(v-if="shouldConnectionSectionBeVisible" type="button" @click="showOrHideConnectionSection") -
+      button.round.add(v-if="!shouldConnectionSectionBeVisible" type="button" @click="showOrHideConnectionSection") +
+    form(v-if="shouldConnectionSectionBeVisible") 
       .form-item
         p Connection name:
         input(type="text" v-model="name")
