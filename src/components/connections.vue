@@ -9,7 +9,8 @@ export default {
   data() {
     return {
       name: connectionName,
-      connectionString
+      connectionString,
+      isNewConnectionFormVisible: false
     }
   },
   methods: {
@@ -30,9 +31,8 @@ export default {
   .box
     h1
       span Connections
-      button.round.add(v-if="shouldConnectionSectionBeVisible" type="button" @click="showOrHideConnectionSection") -
-      button.round.add(v-if="!shouldConnectionSectionBeVisible" type="button" @click="showOrHideConnectionSection") +
-    form(v-if="shouldConnectionSectionBeVisible") 
+      button(@click="isNewConnectionFormVisible = !isNewConnectionFormVisible").round.add +
+    form(v-if="isNewConnectionFormVisible") 
       .form-item
         p Connection name:
         input(type="text" v-model="name")
