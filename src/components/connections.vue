@@ -31,7 +31,7 @@ export default {
   .box
     h1
       span Connections
-      button(@click="isNewConnectionFormVisible = !isNewConnectionFormVisible").round.add +
+      button(@click="isNewConnectionFormVisible = !isNewConnectionFormVisible").round.add {{ isNewConnectionFormVisible === true ? '-' : '+' }}
     form(v-if="isNewConnectionFormVisible") 
       .form-item
         p Connection name:
