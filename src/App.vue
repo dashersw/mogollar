@@ -1,14 +1,15 @@
 <script>
 import Connections from '@/components/connections.vue'
+const currentOS = process.platform
 
 export default {
   name: 'App',
   components: {
     Connections
   },
-  computed: {
-    currentOS() {
-      return process.platform
+  data() {
+    return {
+      currentOS
     }
   }
 }
