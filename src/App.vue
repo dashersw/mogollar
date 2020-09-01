@@ -5,6 +5,11 @@ export default {
   name: 'App',
   components: {
     Connections
+  },
+  computed: {
+    currentOS() {
+      return process.platform
+    }
   }
 }
 </script>
@@ -14,7 +19,7 @@ export default {
     .title-bar
       | Mogollar
     .views
-      .scroll-container
+      .scroll-container(:class="{'os-windows': currentOS === 'win32'}")
         .top
         .scrollable
           aside
@@ -75,6 +80,10 @@ body {
   overflow: scroll;
   scroll-snap-type: y mandatory;
   scroll-padding: 38px 0 0;
+
+  &.os-windows {
+    background: var(--bg-color);
+  }
 }
 
 .scrollable {
