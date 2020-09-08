@@ -10,12 +10,21 @@ export default {
     return {
       name: connectionName,
       connectionString,
-      isNewConnectionFormVisible: false
+      isNewConnectionFormVisible: false,
+      previousConnectionsList: []
     }
   },
   methods: {
     ...mapActions(['connect', 'setDatabase', 'setCollection']),
     async doConnect() {
+      var vm = this
+      var valObj = this.previousConnectionsList.filter(function(conn) {
+        if (conn.connectionName === vm.name) return conn.connectionName
+      })
+
+      if (!valObj.length)
+        vm.previousConnectionsList.push({ connectionName: vm.name, connectionString: vm.connectionString })
+
       await this.connect(this.connectionString)
       this.$router.push('/connection')
     }
@@ -48,6 +57,10 @@ export default {
     h1 Collections
     .collection(v-for="collection in collections" @click="setCollection(collection.name)")
       p {{collection.name}}
+  .box
+    h1 Previous Connections 
+    .collection(v-for="collection in previousConnectionsList")
+      p {{collection.connectionName}}   {{collection.connectionString}}
 
 </template>
 
