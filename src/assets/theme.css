@@ -20,6 +20,7 @@
   --box-bg: rgba(0, 0, 0, 0.4);
   --button-active-bg: #222;
   --transition: 0.2s;
+  --grid-columns: 12;
 }
 
 h1 {

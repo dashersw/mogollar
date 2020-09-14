@@ -1,5 +1,6 @@
 <script>
 import { mapActions, mapState } from 'vuex'
+import records from '../components/records'
 
 export default {
   name: 'Connection',
@@ -8,13 +9,19 @@ export default {
       queryJson: '{}'
     }
   },
+  components: { records },
   computed: {
     ...mapState(['collectionName', 'databaseName', 'records', 'totalNumberOfResults'])
   },
   methods: {
-    ...mapActions(['find']),
+    ...mapActions(['find', 'deleteDocument']),
     async doQuery() {
       await this.find(JSON.parse(this.queryJson))
+    },
+    async deleteRecord(record) {
+      await this.deleteDocument(record._id)
+      const index = this.records.indexOf(record)
+      this.records.splice(index, 1)
     }
   }
 }
@@ -31,8 +38,8 @@ export default {
         button(type="button" @click="doQuery") Run query
     .box.records
       h1 Records
-      .record-views
-        json-viewer(v-for="record in records" :value="record" theme="jv-dark")
+      div(v-bind:class="[records.length > 0 ? 'record-root-border' : '', 'record-container']")
+        records(:records="records" :showModal="false" @deleteRecord="deleteRecord") 
     div.query-total-results
       p(v-if="totalNumberOfResults != null") Total Results: {{totalNumberOfResults}}
 </template>
@@ -62,6 +69,17 @@ export default {
   height: 200px;
   overflow: scroll;
 }
-</style>
 
-<style lang="scss"></style>
+.record-container {
+  overflow-y: scroll;
+  position: absolute;
+  bottom: 20px;
+  top: 80px;
+  left: 1rem;
+  right: 1rem;
+}
+
+.record-root-border {
+  border: 1px solid #777;
+}
+</style>
