@@ -13,7 +13,8 @@ export default new Vuex.Store({
     collections: [],
     records: [],
     collectionName: '',
-    totalNumberOfResults: null
+    totalNumberOfResults: null,
+    recordList: []
   },
   mutations: {},
   actions: {
@@ -53,6 +54,10 @@ export default new Vuex.Store({
     },
     async setCollection({ state }, collectionName) {
       state.collectionName = collectionName
+    },
+    async deleteDocument({ state }, id) {
+      const collection = state.connection.db.collection(state.collectionName)
+      await collection.deleteOne({ _id: id })
     }
   },
   modules: {}
