@@ -17,13 +17,10 @@ export default {
   methods: {
     ...mapActions(['connect', 'setDatabase', 'setCollection']),
     async doConnect() {
-      var vm = this
-      var valObj = this.previousConnectionsList.filter(function(conn) {
-        if (conn.connectionName === vm.name) return conn.connectionName
-      })
+      const connectionExists = this.previousConnectionsList.find(conn => conn.connectionName === this.name)
 
-      if (!valObj.length)
-        vm.previousConnectionsList.push({ connectionName: vm.name, connectionString: vm.connectionString })
+      if (!connectionExists)
+        this.previousConnectionsList.push({ connectionName: this.name, connectionString: this.connectionString })
 
       await this.connect(this.connectionString)
       this.$router.push('/connection')
