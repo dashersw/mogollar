@@ -14,35 +14,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'connect',
-      'setDatabase',
-      'setCollection',
-      'lastOpenedCollection',
-      'addCollectionToOpenedCollections'
-    ]),
+    ...mapActions(['connect', 'setDatabase', 'setCollection', 'lastOpenedCollection']),
     async doConnect() {
       await this.connect(this.connectionString)
       this.$router.push('/connection')
-    },
-    setSelectedDBorCollection(sourceType = 'db', sourceName) {
-      if (sourceType === 'db') {
-        if (this.databaseName == sourceName) {
-          return false
-        }
-
-        this.setDatabase(sourceName)
-      } else {
-        if (this.collectionName == sourceName) {
-          return false
-        }
-
-        if (this.openedCollections.includes(sourceName)) {
-          this.setCollection(sourceName)
-        } else {
-          this.addCollectionToOpenedCollections(sourceName)
-        }
-      }
     }
   },
   computed: {
@@ -69,16 +44,16 @@ export default {
     h1 Databases
     .box-item(
       v-for='database in databases',
-      @click='setSelectedDBorCollection("db", database.name)',
-      :class='{ selected: database.name === databaseName ? true : false }'
+      @click='setDatabase(database.name)',
+      :class='{ selected: database.name === databaseName }'
     )
       p {{ database.name }}
   .box
     h1 Collections
     .box-item(
       v-for='collection in collections',
-      @click='setSelectedDBorCollection("collection", collection.name)',
-      :class='{ selected: collection.name === collectionName ? true : false }'
+      @click='setCollection(collection.name)',
+      :class='{ selected: collection.name === collectionName}'
     )
       p {{ collection.name }}
 </template>

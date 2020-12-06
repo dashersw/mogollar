@@ -3,55 +3,46 @@ import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Connection',
-  data() {
-    return {
-      queryJson: '{}'
-    }
-  },
   computed: {
-    ...mapState([
-      'openedCollections',
-      'collectionName',
-      'databaseName',
-      'activeRecords',
-      'collectionRecords',
-      'totalNumberOfResults'
-    ])
-  },
-  watch: {
-    collectionName: function(newValue) {
-      if (this.collectionRecords[newValue]) {
-        this.queryJson = this.collectionRecords[newValue].query
-      } else {
-        this.queryJson = '{}'
+    ...mapState(['openedCollections', 'collectionName', 'databaseName', 'collectionRecords']),
+    queryJson: {
+      get() {
+        return this.$store.state.queryJson
+      },
+      set(value) {
+        this.$store.commit('updateQuery', value)
       }
     }
   },
   methods: {
-    ...mapActions(['find', 'setCollection', 'removeCollectionFromOpenedCollections']),
+    ...mapActions(['find', 'setCollection', 'closeCollection', 'switchTab']),
     async doQuery() {
-      if (!this.queryJson) {
-        this.queryJson = '{}'
-      }
       await this.find(JSON.parse(this.queryJson))
+    },
+    queryChange(value) {
+      this.queryJson = value
     }
   }
 }
 </script>
 <template lang="pug">
-.connections(v-if='databaseName')
+.connections(v-if='!databaseName')
+  h1 Welcome!
+  .box
+    p.colletion-error Please, connect your database first.
+.connections(v-else)
   h1 {{ databaseName }}
   .box(v-if='!openedCollections.length')
-    p.colletion-errorPlease Please, select at least one collection at the left sidebar
-  .connection-tabs(v-if='openedCollections.length > 0')
+    p.colletion-error Please, select at least one collection.
+  .connection-tabs(v-else)
     .connection-tab(
       v-for='collectionTabName in openedCollections',
-      :class='{ selected: collectionTabName === collectionName ? true : false }'
+      :class='{ selected: collectionTabName === collectionName }'
     )
-      span.tab-label(@click='setCollection(collectionTabName)') {{ collectionTabName }}
-      span.close-btn(@click='removeCollectionFromOpenedCollections(collectionTabName)') x
-  .connection(v-for='collectiontab in openedCollections', v-if='collectiontab === collectionName')
-    .box(v-if='activeRecords')
+      span.tab-label(@click='switchTab(collectionTabName)') {{ collectionTabName }}
+      span.close-btn(@click='closeCollection(collectionTabName)') &cross;
+  .connection(v-for='collectionTab in openedCollections', v-if='collectionTab === collectionName')
+    .box
       form
         .form-item
           h2 Query
@@ -61,16 +52,19 @@ export default {
     .box.records-holder
       h2 Records
       .box.records
-        .record-views
-          .record-row(v-for='record in activeRecords.result')
-            json-viewer(:value='record', theme='jv-dark')
-          .no-record(v-if='activeRecords.isEmpty') There is no record on this collection
-          .first-record(v-if='totalNumberOfResults === null') Please run a query
+        .record-views(v-if='collectionRecords[collectionName].results.length')
+          .record-row(v-for='(result, index) in collectionRecords[collectionName].results' :key="index")
+            json-viewer(:value='result', theme='jv-dark')
+        .no-record(v-if='!collectionRecords[collectionName].firstQuery && !collectionRecords[collectionName].results.length') There are no records in this collection.
+        .first-query(v-if='collectionRecords[collectionName].firstQuery') Please run a query
       .query-total-results
-        p(v-if='totalNumberOfResults') Total Results: {{ totalNumberOfResults }}
+        p(v-if='collectionRecords[collectionName].results.length') Total Results: {{ collectionRecords[collectionName].results.length }}
 </template>
 
 <style lang="scss" scoped>
+.box.records {
+  margin: 1rem 0;
+}
 .connections {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -85,9 +79,9 @@ export default {
   margin-bottom: 2rem;
 }
 .connection-tab {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  margin-right: 4px;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  margin-right: 0.25rem;
   word-wrap: none;
   white-space: nowrap;
   background: var(--button-bg);
@@ -141,8 +135,6 @@ export default {
 }
 
 .query-total-results {
-  height: 1.4rem;
-  bottom: 1rem;
   font-size: 1rem;
 }
 

@@ -10,16 +10,18 @@ export default new Vuex.Store({
     connection: null,
     databases: [],
     databaseName: '',
+    queryJson: '{}',
     collections: [],
     collectionRecords: {},
-    queryJson: '{}',
-    activeRecords: null,
     collectionName: '',
     lastOpenedCollection: '',
-    openedCollections: [],
-    totalNumberOfResults: null
+    openedCollections: []
   },
-  mutations: {},
+  mutations: {
+    updateQuery(state, query) {
+      state.queryJson = query
+    }
+  },
   actions: {
     async connect({ state, dispatch }, connectionString) {
       await mongoose.connect(connectionString, { useNewUrlParser: true })
@@ -38,36 +40,37 @@ export default new Vuex.Store({
       state.collections = await state.connection.db.listCollections().toArray()
     },
     async find({ state }, query = {}) {
-      if (state.collectionRecords[state.collectionName]) {
-        const query_serialization = JSON.stringify(query)
-
-        if (state.collectionRecords[state.collectionName].query === query_serialization) {
-          state.activeRecords = state.collectionRecords[state.collectionName]
-          state.totalNumberOfResults = state.activeRecords.result.length
-          return
-        }
+      if (
+        state.collectionRecords[state.collectionName].query === JSON.stringify(query) &&
+        !state.collectionRecords[state.collectionName].firstQuery
+      ) {
+        return false
       }
 
-      state.totalNumberOfResult = null
       const collection = state.connection.db.collection(state.collectionName)
       const cursor = await collection.find(query)
 
-      cursor.count((err, result) => {
+      cursor.count(err => {
         if (err) return
-        state.totalNumberOfResults = result
       })
 
-      const result = await cursor.toArray()
+      const results = await cursor.toArray()
 
-      state.activeRecords = {
-        query: JSON.stringify(query),
-        result,
-        isEmpty: !result.length
+      state.collectionRecords = {
+        ...state.collectionRecords,
+        [state.collectionName]: {
+          query: JSON.stringify(query),
+          results
+        }
       }
 
-      state.collectionRecords[state.collectionName] = state.activeRecords
+      console.log('find', state.collectionRecords)
     },
     async setDatabase({ state, dispatch }, databaseName) {
+      if (state.databaseName == databaseName) {
+        return false
+      }
+
       state.connection = state.connection.useDb(databaseName)
       state.databaseName = databaseName
       state.collectionName = ''
@@ -76,38 +79,49 @@ export default new Vuex.Store({
       await dispatch('getCollections')
     },
     async setCollection({ state }, collectionName) {
+      if (state.openedCollections.includes(collectionName)) {
+        return
+      }
+
       state.collectionName = collectionName
       state.lastOpenedCollection = collectionName
+      state.openedCollections.push(collectionName)
 
-      if (state.collectionRecords[state.collectionName]) {
-        state.activeRecords = state.collectionRecords[state.collectionName]
-        state.totalNumberOfResults = state.activeRecords.result.length
-      } else {
-        state.activeRecords = []
-        state.totalNumberOfResults = null
+      state.collectionRecords = {
+        ...state.collectionRecords,
+        [state.collectionName]: {
+          query: '{}',
+          firstQuery: true,
+          results: []
+        }
       }
+      state.queryJson = state.collectionRecords[state.collectionName].query
     },
-    async addCollectionToOpenedCollections({ state, dispatch }, collectionName) {
-      if (state.openedCollections.includes(collectionName)) {
+    async closeCollection({ state, dispatch }, collectionName) {
+      if (!state.openedCollections.includes(collectionName)) {
         return false
       }
 
-      state.openedCollections.push(collectionName)
-      await dispatch('setCollection', collectionName)
-    },
-    async removeCollectionFromOpenedCollections({ state, dispatch }, collectionName) {
-      if (state.openedCollections.includes(collectionName)) {
-        state.openedCollections = state.openedCollections.filter(itemName => itemName !== collectionName)
+      state.openedCollections = state.openedCollections.filter(itemName => itemName !== collectionName)
+      delete state.collectionRecords[collectionName]
 
-        //clear saved query records
-        delete state.collectionRecords[collectionName]
-
-        if (state.lastOpenedCollection === collectionName) {
-          await dispatch('setCollection', state.openedCollections[state.openedCollections.length - 1])
-        } else {
-          await dispatch('setCollection', state.lastOpenedCollection)
-        }
+      if (!state.openedCollections.length) {
+        state.collectionName = ''
+        state.lastOpenedCollection = ''
+        return
       }
+
+      dispatch(
+        'switchTab',
+        state.lastOpenedCollection === collectionName
+          ? state.openedCollections[state.openedCollections.length - 1]
+          : state.lastOpenedCollection
+      )
+    },
+    switchTab({ state }, collectionName) {
+      state.collectionName = collectionName
+      state.lastOpenedCollection = collectionName
+      state.queryJson = state.collectionRecords[state.collectionName].query
     }
   },
   modules: {}
