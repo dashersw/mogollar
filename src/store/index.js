@@ -63,8 +63,6 @@ export default new Vuex.Store({
           results
         }
       }
-
-      console.log('find', state.collectionRecords)
     },
     async setDatabase({ state, dispatch }, databaseName) {
       if (state.databaseName == databaseName) {
