@@ -7,12 +7,16 @@ export default {
 <template lang="pug">
   .home
     main
+      h1 Welcome!
+      .box
+        p.colletion-error Please, connect your database first.
 </template>
 
 <style lang="scss" scoped>
-.home {
+main {
+  padding-left: 2rem;
+  padding-right: 2rem;
   display: flex;
-  align-items: stretch;
-  height: calc(100% + 58px);
+  flex-direction: column;
 }
 </style>
