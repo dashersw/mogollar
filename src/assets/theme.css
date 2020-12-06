@@ -29,13 +29,16 @@ h1 {
   line-height: 2;
   margin: 1rem 0;
 }
+
 h2 {
   font-size: var(--h2-font-size);
   font-weight: var(--book);
 }
+
 h3 {
   font-size: var(--h3-font-size);
 }
+
 h4 {
   font-size: var(--h4-font-size);
 }
@@ -55,6 +58,7 @@ h4 {
 p {
   line-height: 1.4;
 }
+
 button {
   appearance: none;
   background: #333;
@@ -131,6 +135,7 @@ form {
   font-size: 14px;
   font-family: Consolas, Menlo, Courier, monospace;
 }
+
 .jv-dark .jv-ellipsis {
   color: #999;
   background-color: #333;
@@ -143,48 +148,62 @@ form {
   cursor: pointer;
   user-select: none;
 }
+
 .jv-dark .jv-button {
   color: #49b3ff;
 }
+
 .jv-dark .jv-key {
   color: #fff;
 }
+
 .jv-dark .jv-item.jv-array {
   color: #fff;
 }
+
 .jv-dark .jv-item.jv-boolean {
   color: #fc1e70;
 }
+
 .jv-dark .jv-item.jv-function {
   color: #067bca;
 }
+
 .jv-dark .jv-item.jv-number {
   color: #fc1e70;
 }
+
 .jv-dark .jv-item.jv-number-float {
   color: #fc1e70;
 }
+
 .jv-dark .jv-item.jv-number-integer {
   color: #fc1e70;
 }
+
 .jv-dark .jv-item.jv-object {
   color: #111;
 }
+
 .jv-dark .jv-item.jv-undefined {
   color: #e08331;
 }
+
 .jv-dark .jv-item.jv-string {
   color: #42b983;
   word-break: break-word;
   white-space: normal;
 }
+
 .jv-dark .jv-code {
   padding: 0 !important;
 }
+
 .jv-dark .jv-code .jv-toggle:before {
   padding: 0px 2px;
   border-radius: 2px;
 }
+
 .jv-dark .jv-code .jv-toggle:hover:before {
   background: #eee;
 }
