@@ -3,6 +3,7 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import windowStateKeeper from 'electron-window-state'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -13,10 +14,18 @@ let win
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 
 function createWindow() {
+  // Load the previous state with fallback to defaults
+  let mainWindowState = windowStateKeeper({
+    defaultWidth: 800,
+    defaultHeight: 600
+  })
+
   // Create the browser window.
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    width: mainWindowState.width,
+    height: mainWindowState.height,
     titleBarStyle: 'hiddenInset',
     vibrancy: 'sidebar',
     webPreferences: {
@@ -25,6 +34,11 @@ function createWindow() {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
     }
   })
+
+  // Let us register listeners on the window, so we can update the state
+  // automatically (the listeners will be removed when the window is closed)
+  // and restore the maximized or full screen state
+  mainWindowState.manage(win)
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

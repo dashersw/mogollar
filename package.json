@@ -17,6 +17,7 @@
   "main": "background.js",
   "dependencies": {
     "core-js": "^3.6.5",
+    "electron-window-state": "^5.0.3",
     "mongoose": "^5.10.0",
     "vue": "^2.6.11",
     "vue-json-viewer": "^2.2.14",
