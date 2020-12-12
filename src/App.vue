@@ -1,11 +1,13 @@
 <script>
 import Connections from '@/components/connections.vue'
+import VueResizable from 'vue-resizable'
 const currentOS = process.platform
 
 export default {
   name: 'App',
   components: {
-    Connections
+    Connections,
+    VueResizable
   },
   data() {
     return {
@@ -20,12 +22,13 @@ export default {
     .title-bar
       | Mogollar
     .views
-      .scroll-container(:class="{'os-windows': currentOS === 'win32'}")
-        .top
-        .scrollable
-          aside
-            Connections.connections
-        .bottom
+      vue-resizable( :width='450' :fitParent='true' :minWidth='450' :maxWidth='750' :active=['r'] )
+          .scroll-container(:class="{'os-windows': currentOS === 'win32'}")
+            .top
+            .scrollable
+              aside
+                Connections.connections
+            .bottom
       router-view.view(ref="views" data-elastic)
 </template>
 
@@ -57,7 +60,7 @@ body {
   background: linear-gradient(rgba(84, 84, 84, 0.8) 0%, rgba(64, 64, 64, 0.8) 100%);
   backdrop-filter: blur(20px);
   box-shadow: 0 -0.5px 0px inset rgba(0, 0, 0, 0.8), 0 -1px 0px inset rgba(0, 0, 0, 0.3);
-  height: 38px;
+  height: var(--title-bar-height);
   line-height: 40px;
   display: block;
   -webkit-app-region: drag;
@@ -65,11 +68,13 @@ body {
   // font-weight: var(--book);
   text-align: center;
   z-index: 1;
+  padding: 0 80px;
+  user-select: none;
 }
 
 .views {
+  top: var(--title-bar-height);
   height: 100vh;
-  top: 0px;
   position: absolute;
   width: 100%;
   display: grid;
@@ -77,10 +82,11 @@ body {
 }
 
 .scroll-container {
-  padding: 98px 0 0;
-  overflow: scroll;
+  overflow: auto;
+  height: 100vh;
   scroll-snap-type: y mandatory;
-  scroll-padding: 38px 0 0;
+  scroll-padding: var(--title-bar-height) 0 0;
+  background: var(--bg-color);
 
   &.os-windows {
     background: var(--bg-color);
@@ -91,7 +97,8 @@ body {
   scroll-snap-align: none;
   scroll-snap-type: center;
   display: table;
-  min-height: calc(100% + 98px);
+  width: 100%;
+  min-height: 100%;
 }
 
 .scrollable * {
@@ -104,13 +111,22 @@ body {
 }
 
 aside {
-  width: 30rem;
+  width: inherit;
   padding: 2rem;
+}
+
+.resizable-component {
+  /* Fix resize height problem */
+  height: 100vh !important;
+  > .resizable-r {
+    width: 0.1rem !important;
+    right: -0.1rem !important;
+    background: var(--box-bg);
+  }
 }
 
 .view {
   background: var(--bg-color);
   flex-grow: 1;
-  padding: 38px 0 0 0;
 }
 </style>
