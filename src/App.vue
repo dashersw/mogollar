@@ -1,10 +1,16 @@
 <script>
 import Connections from '@/components/connections.vue'
+const currentOS = process.platform
 
 export default {
   name: 'App',
   components: {
     Connections
+  },
+  data() {
+    return {
+      currentOS
+    }
   }
 }
 </script>
@@ -14,7 +20,7 @@ export default {
     .title-bar
       | Mogollar
     .views
-      .scroll-container
+      .scroll-container(:class="{'os-windows': currentOS === 'win32'}")
         .top
         .scrollable
           aside
@@ -75,6 +81,10 @@ body {
   overflow: scroll;
   scroll-snap-type: y mandatory;
   scroll-padding: 38px 0 0;
+
+  &.os-windows {
+    background: var(--bg-color);
+  }
 }
 
 .scrollable {

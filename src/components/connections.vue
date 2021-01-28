@@ -9,18 +9,19 @@ export default {
   data() {
     return {
       name: connectionName,
-      connectionString
+      connectionString,
+      isNewConnectionFormVisible: false
     }
   },
   methods: {
-    ...mapActions(['connect', 'setCollection']),
+    ...mapActions(['connect', 'setDatabase', 'setCollection']),
     async doConnect() {
       await this.connect(this.connectionString)
       this.$router.push('/connection')
     }
   },
   computed: {
-    ...mapState(['collections'])
+    ...mapState(['databases', 'collections'])
   }
 }
 </script>
@@ -30,15 +31,19 @@ export default {
   .box
     h1
       span Connections
-      button.round.add +
-    form
+      button(@click="isNewConnectionFormVisible = !isNewConnectionFormVisible").round.add {{ isNewConnectionFormVisible ? '-' : '+' }}
+    form(v-if="isNewConnectionFormVisible") 
       .form-item
         p Connection name:
         input(type="text" v-model="name")
       .form-item
         p Connection string:
         input(type="text" v-model="connectionString")
-      button(@click="doConnect") Connect
+      button(type="button" @click="doConnect") Connect
+  .box
+     h1 Databases
+     .database(v-for="database in databases" @click="setDatabase(database.name)")
+       p {{database.name}}
   .box
     h1 Collections
     .collection(v-for="collection in collections" @click="setCollection(collection.name)")
@@ -46,4 +51,13 @@ export default {
 
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.collection {
+  cursor: pointer;
+  color: var(--fg-dim-color);
+  transition: var(--transition);
+}
+.collection:hover {
+  color: var(--fg-color);
+}
+</style>
