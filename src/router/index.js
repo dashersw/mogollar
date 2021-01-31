@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Connection from '../views/connection.vue'
+import TabNavigation from '../views/TabNavigation.vue'
 
 Vue.use(VueRouter)
 
@@ -12,9 +12,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/connection',
-    name: 'Connection',
-    component: Connection
+    path: '/tab-navigation',
+    name: 'TabNavigation',
+    component: TabNavigation
   },
   {
     path: '/about',

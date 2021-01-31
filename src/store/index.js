@@ -13,7 +13,8 @@ export default new Vuex.Store({
     collections: [],
     records: [],
     collectionName: '',
-    totalNumberOfResults: null
+    totalNumberOfResults: null,
+    routeTabs: []
   },
   mutations: {},
   actions: {
@@ -51,8 +52,19 @@ export default new Vuex.Store({
       state.records = []
       await dispatch('getCollections')
     },
-    async setCollection({ state }, collectionName) {
+    async setCollection({ state, dispatch }, collectionName) {
       state.collectionName = collectionName
+      await dispatch('setRouteTab', collectionName)
+    },
+
+    async setRouteTab({ state }, title) {
+      const tab = state.routeTabs.find(tab => tab.title == title)
+
+      if (tab == undefined) state.routeTabs.push({ title, selected: true })
+
+      state.routeTabs.forEach(tab => {
+        tab.selected = tab.title == title
+      })
     }
   },
   modules: {}
