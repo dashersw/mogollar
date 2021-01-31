@@ -43,6 +43,7 @@ export default {
   padding-right: 2rem;
   display: flex;
   flex-direction: column;
+  background: var(--button-bg);
 }
 
 .query-total-results {

@@ -17,7 +17,7 @@ export default {
     ...mapActions(['connect', 'setDatabase', 'setCollection']),
     async doConnect() {
       await this.connect(this.connectionString)
-      this.$router.push('/connection')
+      this.$router.push('/tab-navigation')
     }
   },
   computed: {
