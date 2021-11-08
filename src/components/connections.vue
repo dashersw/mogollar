@@ -41,9 +41,9 @@ export default {
         input(type="text" v-model="connectionString")
       button(type="button" @click="doConnect") Connect
   .box
-     h1 Databases
-     .database(v-for="database in databases" @click="setDatabase(database.name)")
-       p {{database.name}}
+    h1 Databases
+    .database(v-for="database in databases" @click="setDatabase(database.name)")
+      p {{database.name}}
   .box
     h1 Collections
     .collection(v-for="collection in collections" @click="setCollection(collection.name)")
@@ -52,12 +52,14 @@ export default {
 </template>
 
 <style scoped lang="scss">
-.collection {
+.collection,
+.database {
   cursor: pointer;
   color: var(--fg-dim-color);
   transition: var(--transition);
 }
-.collection:hover {
+.collection:hover,
+.database:hover {
   color: var(--fg-color);
 }
 </style>
