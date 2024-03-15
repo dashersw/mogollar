@@ -9,4 +9,11 @@ new Vue({
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
+}).$mount('#app').$nextTick(() => {
+  postMessage({ payload: 'removeLoading' }, '*')
+
+  // Use contextBridge
+  window.ipcRenderer.on('main-process-message', (_event, message) => {
+    console.log(message)
+  })
+})

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-const mongoose = require('mongoose')
-const Admin = mongoose.mongo.Admin
+import mongoose from 'mongoose'
+const Admin = mongoose.mongo?.Admin
 
 Vue.use(Vuex)
 

@@ -1,6 +1,6 @@
 <script>
 import Connections from '@/components/connections.vue'
-const currentOS = process.platform
+const currentOS = import.meta.platform
 
 export default {
   name: 'App',
