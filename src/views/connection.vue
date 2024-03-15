@@ -20,21 +20,21 @@ export default {
 }
 </script>
 <template lang="pug">
-  div.connection
-    h1 {{ databaseName }} - {{ collectionName }} collection
-    .box
-      form
-        .form-item
-          h2 Query:
-        .form-item
-          input.code(type="text" v-model="queryJson")
-        button(type="button" @click="doQuery") Run query
-    .box.records
-      h1 Records
-      .record-views
-        json-viewer(v-for="record in records" :value="record" theme="jv-dark")
-    div.query-total-results
-      p(v-if="totalNumberOfResults != null") Total Results: {{totalNumberOfResults}}
+div.connection
+  h1 {{ databaseName }} - {{ collectionName }} collection
+  .box
+    form
+      .form-item
+        h2 Query:
+      .form-item
+        input.code(type="text" v-model="queryJson")
+      button(type="button" @click="doQuery") Run query
+  .box.records
+    h1 Records
+    .record-views
+      json-viewer(v-for="record in records" :value="record" theme="jv-dark")
+  div.query-total-results
+    p(v-if="totalNumberOfResults != null") Total Results: {{totalNumberOfResults}}
 </template>
 
 <style lang="scss" scoped>
